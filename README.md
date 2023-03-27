@@ -20,4 +20,4 @@ URI = 127.0.0.1
 
 3 Configurar variables de entorno y server
 
-4 Para ejecutar usar: pyhton App.py
+4 Para ejecutar usar: python ./src/App.py
