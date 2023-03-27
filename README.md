@@ -16,7 +16,7 @@ URI = 127.0.0.1
     
     ./virtualenv/bin/activate
 
-2 pip install -r requirements.txt
+2 Instalar dependencias pip install -r requirements.txt
 
 3 Configurar variables de entorno y server
 
