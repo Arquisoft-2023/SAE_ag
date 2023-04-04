@@ -4,6 +4,8 @@ import json
 
 # from strawberry.types import Info
 from tutorias.Server import url, port
+from tutorias.type_def.Acompanyamiento import acompanyamiento
+import typing
 
 entryPoint = "acompanyamiento"
 urlApi = f'http://{url}:{port}/{entryPoint}'
@@ -15,9 +17,12 @@ class Query:
         return "Acompanyamiento"
     
     @strawberry.field
-    def all(self) -> str:
-        response = requests.request("GET", f'{urlApi}/all')
-        data = json.dumps(response.json())
-        # print(data[0])
-        return data
+    def all(self) -> str: 
+        reponse = requests.request("GET", f'{urlApi}/all')
+        print(reponse.json())
+        data = reponse.json()
+        # data = json(data)
+        # print(type(data[0]['_id']))
+        # print(data[0]['_id'])
+        return reponse
         # return "Probando"
