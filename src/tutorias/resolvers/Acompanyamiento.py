@@ -5,7 +5,7 @@ import typing
 
 from tutorias.Server import url, port
 from tutorias.type_def.Acompanyamiento import acompanyamiento, acompanyamiento_input
-from tutorias.utilities import mapper, error
+from tutorias.utilities import gestion, mapper_tutoria
 
 entryPoint = "acompanyamiento"
 urlApi = f'http://{url}:{port}/{entryPoint}'
@@ -19,16 +19,31 @@ class Query:
     @strawberry.field
     def obtener_acompanyamiento(self) -> typing.List[acompanyamiento]: 
         response = requests.request("GET", f'{urlApi}/all')
-        return error.gestionar_respuesta_micro(self, response, acompanyamiento, "lista")
+        return gestion.gestionar_respuesta_micro(self, response, acompanyamiento, "lista")
      
     @strawberry.field
     def obtener_tutor(self, usuario_un_estudiante: str) -> str: 
         response = requests.request("GET", f'{urlApi}/{usuario_un_estudiante}')
-        return error.gestionar_respuesta_micro(self, response, key="usuario_un_tutor")
+        return gestion.gestionar_respuesta_micro(self, response, tipo_respuesta="uno_con_key", key="usuario_un_tutor")
+    
+    @strawberry.field
+    def obtener_tutores(self) -> typing.List[str]: 
+        response = requests.request("GET", f'{urlApi}/tutores')
+        return gestion.gestionar_respuesta_micro(self, response)
+    
+    @strawberry.field
+    def obtener_estudiantes(self, usuario_un_tutor: str) -> typing.List[acompanyamiento]: 
+        response = requests.request("GET", f'{urlApi}/estudiantes/{usuario_un_tutor}')
+        return gestion.gestionar_respuesta_micro(self, response, acompanyamiento, "lista")
     
 @strawberry.type
 class Mutation:
     @strawberry.mutation
     async def asignar_tutor(self, item: acompanyamiento_input) -> acompanyamiento:
-        response = requests.request("POST", f'{urlApi}/asignar', json=mapper.to_json(self, item, "asignar"))
-        return error.gestionar_respuesta_micro(self, response, acompanyamiento, "uno")
+        response = requests.request("POST", f'{urlApi}/asignar', json=mapper_tutoria.to_json(self, item, "asignar"))
+        return gestion.gestionar_respuesta_micro(self, response, acompanyamiento, "uno")
+
+    @strawberry.mutation
+    async def actualizar_tutor(self, item: acompanyamiento_input) -> str:
+        response = requests.request("PUT", f'{urlApi}/actualizar', json=mapper_tutoria.to_json(self, item, "asignar"))
+        return gestion.gestionar_respuesta_micro(self, response, tipo_respuesta="boolean")

@@ -6,8 +6,8 @@ from tutorias.type_def.Observacion import observacion, observacion_input
 @strawberry.type
 class acompanyamiento:
     _id: Optional[str] = None
-    usuario_un_estudiante: str
-    usuario_un_tutor: str
+    usuario_un_estudiante: Optional[str]
+    usuario_un_tutor: Optional[str]
     es_tutor: Optional[str] = None
     lista_tutoria: Optional[List[tutoria]] = None
     lista_observacion: Optional[List[observacion]] = None
