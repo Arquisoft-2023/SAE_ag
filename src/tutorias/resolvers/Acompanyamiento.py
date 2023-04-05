@@ -11,7 +11,7 @@ entryPoint = "acompanyamiento"
 urlApi = f'http://{url}:{port}/{entryPoint}'
 
 @strawberry.type
-class Query:
+class query_acompanyamiento:
     @strawberry.field
     def test(self) -> str:
         return "Acompanyamiento"
@@ -37,11 +37,11 @@ class Query:
         return gestion.gestionar_respuesta_micro(self, response, acompanyamiento, "lista")
     
 @strawberry.type
-class Mutation:
+class mutation_acompanyamiento:
     @strawberry.mutation
     async def asignar_tutor(self, item: acompanyamiento_input) -> acompanyamiento:
         response = requests.request("POST", f'{urlApi}/asignar', json=mapper_tutoria.to_json(self, item, "asignar"))
-        return gestion.gestionar_respuesta_micro(self, response, acompanyamiento, "uno")
+        return gestion.gestionar_respuesta_micro(self, response, acompanyamiento,  "uno")
 
     @strawberry.mutation
     async def actualizar_tutor(self, item: acompanyamiento_input) -> str:
