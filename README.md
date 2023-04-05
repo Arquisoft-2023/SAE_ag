@@ -18,6 +18,10 @@ URI = 127.0.0.1
 
 2 Instalar dependencias pip install -r requirements.txt
 
+Para actualizar el archivo requirements.txt
+
+    pip freeze > requirements.txt
+
 3 Configurar variables de entorno y server
 
 4 Para ejecutar usar: python ./src/App.py
