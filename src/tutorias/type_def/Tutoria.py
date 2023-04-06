@@ -7,10 +7,10 @@ class tutoria:
     fecha: str
     lugar: str
     estado: str
-    objetivo: Optional[str] = None
-    acuerdo: Optional[str] = None
-    observaciones_tutor: Optional[str] = None
-    observaciones_estudiante: Optional[str] = None
+    objetivo: Optional[str] = ""
+    acuerdo: Optional[str] = ""
+    observaciones_tutor: Optional[str] = ""
+    observaciones_estudiante: Optional[str] = ""
 
 @strawberry.input
 class tutoria_input:
@@ -18,7 +18,7 @@ class tutoria_input:
     fecha: str
     lugar: str
     estado: str
-    objetivo: Optional[str] = None
-    acuerdo: Optional[str] = None
-    observaciones_tutor: Optional[str] = None
-    observaciones_estudiante: Optional[str] = None
+    objetivo: Optional[str] = ""
+    acuerdo: Optional[str] = ""
+    observaciones_tutor: Optional[str] = ""
+    observaciones_estudiante: Optional[str] = ""

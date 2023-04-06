@@ -4,7 +4,7 @@ import requests
 import typing
 
 from tutorias.Server import url, port
-from tutorias.type_def.Acompanyamiento import acompanyamiento, acompanyamiento_input
+from tutorias.type_def.Acompanyamiento import acompanyamiento_input
 from tutorias.utilities import gestion, mapper_tutoria
 
 entryPoint = "observacion"

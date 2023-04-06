@@ -9,6 +9,8 @@ class mapper_tutoria:
                 data["es_tutor"] = "Actual"
             elif metodo == "crear_obs":
                 data["lista_observacion"] = mapper.mapper_to_json_lista(self, item.lista_observacion)
+            elif metodo == "crear_tutoria":
+                data["lista_tutoria"] = mapper.mapper_to_json_lista(self, item.lista_tutoria)
             return data
         except Exception as e:
             print(gestion.imprimir_error(self,"Error al convertir a to_json", 500, e))
