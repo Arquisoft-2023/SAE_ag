@@ -15,6 +15,7 @@ URI = 127.0.0.1
     python -m venv virtualenv
     
     ./virtualenv/bin/activate
+    source virtualenv/bin/activate  -- en linux
 
 2 Instalar dependencias 
 
