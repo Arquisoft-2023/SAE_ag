@@ -20,6 +20,16 @@ class query_acompanyamiento:
     def obtener_acompanyamiento(self) -> typing.List[acompanyamiento]: 
         response = requests.request("GET", f'{urlApi}/all')
         return gestion.gestionar_respuesta_micro(self, response, acompanyamiento, "lista")
+
+    @strawberry.field
+    def obtener_acompanyamiento_uno(self, item: acompanyamiento_input) -> typing.List[acompanyamiento]:
+        response = requests.request("GET", f'{urlApi}/one', json=mapper_tutoria.to_json(self, item))
+        return gestion.gestionar_respuesta_micro(self, response, acompanyamiento,  "lista")
+    
+    @strawberry.field
+    def obtener_acompanyamiento_tutor(self, usuario_un_tutor: str) -> typing.List[acompanyamiento]: 
+        response = requests.request("GET", f'{urlApi}/listaTutor/{usuario_un_tutor}')
+        return gestion.gestionar_respuesta_micro(self, response, acompanyamiento, "lista")
      
     @strawberry.field
     def obtener_tutor(self, usuario_un_estudiante: str) -> str: 
