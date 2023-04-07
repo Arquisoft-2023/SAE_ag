@@ -5,9 +5,9 @@ Proyecto Sistema de Acompañamiento Estudiantil (SAE) en la facultad de medicina
 Sebastián Hernández Cerón
 
 # Variables de entorno Archivo Env
-PORT = 8001 #TCP
+PORT = 3121 #TCP
 
-URI = 127.0.0.1
+URI = 127.0.0.8
 
 # Pasos
 1 Crear un entorno de desarrollo virtual 
