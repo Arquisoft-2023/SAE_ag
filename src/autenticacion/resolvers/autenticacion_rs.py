@@ -3,7 +3,7 @@ import requests
 import typing
 
 from autenticacion.Server import url, port
-from autenticacion.type_def.autenticacion_td import UsuarioAuthInput, UsuarioAuth, UsuarioAuthWithToken, UsuarioAuthGeneral
+from autenticacion.type_def.autenticacion_td import UsuarioAuthInput, UsuarioAuthWithToken, UsuarioAuthGeneral
 from autenticacion.utilities import gestion, mapper_general
 from gestionUsuarios.resolvers.gestionUsuarios_rs import Query as gestionUsuariosQuery
 
