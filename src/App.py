@@ -5,12 +5,14 @@ import os
 
 from tutorias.Index import tutorias
 from gestionUsuarios.Index import gestionUsuarios
+from formularios.Index import formularios
 
 load_dotenv()
 app = FastAPI()
 
 app.include_router(tutorias, prefix="/tutorias")
 app.include_router(gestionUsuarios, prefix="/gestionUsuarios")
+app.include_router(formularios, prefix="/formularios")
 
 #Development -> reload = True
 if __name__ == "__main__":
