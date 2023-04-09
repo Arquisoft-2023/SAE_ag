@@ -5,6 +5,7 @@ import os
 
 from tutorias.Index import tutorias
 from gestionUsuarios.Index import gestionUsuarios
+from formularios.Index import formularios
 from autenticacion.Index import autenticacion 
 
 load_dotenv()
@@ -12,6 +13,7 @@ app = FastAPI()
 
 app.include_router(tutorias, prefix="/tutorias")
 app.include_router(gestionUsuarios, prefix="/gestionUsuarios")
+app.include_router(formularios, prefix="/formularios")
 app.include_router(autenticacion, prefix="/auth")
 
 #Development -> reload = True
