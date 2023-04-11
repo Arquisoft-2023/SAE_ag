@@ -11,7 +11,7 @@ from formularios.type_def.Formularios import formulario, formulario_input
 
 entryPoint = "formularios"
 urlApi = f'http://{url}:{port}/{entryPoint}/'
-urlApi2 = f'http://{url}:{port}/{entryPoint2}/'
+
 
 @strawberry.type
 class Query_formularios:
