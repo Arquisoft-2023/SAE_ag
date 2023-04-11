@@ -10,7 +10,6 @@ from formularios.Server import url, port
 from formularios.type_def.Formularios import formulario, formulario_input
 
 entryPoint = "formularios"
-entryPoint2 = "forms"
 urlApi = f'http://{url}:{port}/{entryPoint}/'
 urlApi2 = f'http://{url}:{port}/{entryPoint2}/'
 
@@ -42,11 +41,11 @@ class Mutation_formularios:
  
     @strawberry.mutation
     async def actualizar_form(self,id:str, item: formulario_input) -> formulario:
-        response = requests.request("PUT", f'{urlApi2}actua/{id}', json=mapper_formulario.to_json(self, item, metodo="todo_form"))
+        response = requests.request("PUT", f'{urlApi}actua/{id}', json=mapper_formulario.to_json(self, item, metodo="todo_form"))
         return gestion.gestionar_respuesta_micro(self, response, formulario, "uno")
     
     @strawberry.mutation
     async def borrarform(self,id:str) -> str:
-        response = requests.request("DELETE", f'{urlApi2}borrar/{id}')
+        response = requests.request("DELETE", f'{urlApi}borrar/{id}')
         return (response)
     
