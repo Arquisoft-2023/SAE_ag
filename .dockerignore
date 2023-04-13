@@ -8,3 +8,10 @@ __pycache__/
 Dockerfile
 .dockerignore
 docker-compose.yml
+
+#Git
+.gitignore
+.git
+
+#Readme
+README.md
