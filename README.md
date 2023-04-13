@@ -30,3 +30,13 @@ Para actualizar el archivo requirements.txt
 4 Para ejecutar usar 
     
     python ./src/App.py
+
+
+# Dockerizar
+1 Construir imagen
+
+    docker build --no-cache -t sae_ag .
+
+2 Correr contenedor
+
+    docker run -p 3121:3121 -e URI=127.0.0.8 -e PORT=3121 --name sae_ag sae_ag
