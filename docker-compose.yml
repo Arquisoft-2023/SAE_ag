@@ -1,0 +1,12 @@
+version: "3"
+
+services:
+
+  sae_ag:
+    build: .
+    env_file:
+      - .env
+    container_name: sae_ag
+    restart: always
+    ports:
+      - "127.0.0.8:3121:80"

@@ -12,8 +12,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . /sae/sae_ag/
 
 #Servidor
-ENV PORT=3121
-ENV URI=127.0.0.8
-EXPOSE 3121
+ENV PORT=80
+ENV URI=0.0.0.0
 
-CMD [ "python", "./src/App.py" ]
+EXPOSE 80
+
+CMD ["python", "./src/App.py"]

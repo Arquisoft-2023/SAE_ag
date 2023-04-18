@@ -1,4 +1,2 @@
 virtualenv
 __pycache__/
-.env
-*.yml
