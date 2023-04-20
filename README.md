@@ -48,14 +48,16 @@ Para actualizar el archivo requirements.txt
 
 # Comandos de despliegue con docker-compose
 
-Si no se ha creado la red de docker para los microservicios, ejecutar el siguiente comando:
+1 Si no se ha creado la red de docker para los microservicios, ejecutar el siguiente comando:
 
-docker network create nodes-networks
+    docker network create nodes-networks
 
-Contruir y ejecutar el contenedor:
+2 Contruir y ejecutar el contenedor:
 
-docker-compose build --no-cache
+    docker-compose build --no-cache
 
-docker-compose up
+    docker-compose up
 
-docker-compose down
+3 Detener el contenedor:
+    
+    docker-compose down
