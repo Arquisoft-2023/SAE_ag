@@ -3,12 +3,12 @@ from fastapi import APIRouter
 from strawberry.asgi import GraphQL
 
 from formularios.resolvers.formularios import Query_formularios, Mutation_formularios
-from formularios.resolvers.tamizajes import Query_tamizajes, Mutation_formularios
+from formularios.resolvers.tamizajes import Query_tamizajes, Mutation_tamizajes
 
 formularios = APIRouter()
 
 schema_formulario = strawberry.Schema(Query_formularios,  Mutation_formularios)
-schema_tamizajes = strawberry.Schema(Query_tamizajes, Mutation_formularios)
+schema_tamizajes = strawberry.Schema(Query_tamizajes, Mutation_tamizajes)
 # schema_tutoria = strawberry.Schema(query, mutation)
 
 graphql_app_formulario = GraphQL(schema_formulario)
