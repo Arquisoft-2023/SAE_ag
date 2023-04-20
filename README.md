@@ -46,8 +46,16 @@ Para actualizar el archivo requirements.txt
     docker run -p 3121:80 --name sae_ag sae_ag
 
 
-# Dockerizar - comandos compose
+# Comandos de despliegue con docker-compose
 
-sudo docker compose up
+Si no se ha creado la red de docker para los microservicios, ejecutar el siguiente comando:
 
-sudo docker rmi sae_ag:latest
+docker network create nodes-networks
+
+Contruir y ejecutar el contenedor:
+
+docker-compose build --no-cache
+
+docker-compose up
+
+docker-compose down
