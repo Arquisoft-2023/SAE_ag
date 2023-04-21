@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+
+  sae_ag:
+    build: .
+    image: sae_ag
+    container_name: sae_ag
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "127.0.0.8:3121:80"
+    # hostname: sae_ag
+    networks:
+      nodes-networks:
+        aliases:
+          - sae_ag
+
+networks:
+  nodes-networks:
+    external: true

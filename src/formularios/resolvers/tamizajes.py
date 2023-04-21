@@ -29,7 +29,7 @@ class Query_tamizajes:
         return gestion.gestionar_respuesta_micro(self, response, respuesta, "uno")
     
 @strawberry.type
-class Mutation_formularios:
+class Mutation_tamizajes:
     @strawberry.mutation
     async def realizar_tamizaje(self,id:str, item: formulario_input) -> str:
         response = requests.request("PUT", f'{urlApi}bienestar/{id}', json=mapper_formulario.to_json(self, item, metodo="todo_form"))

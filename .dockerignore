@@ -1,0 +1,17 @@
+# Dependencies
+virtualenv
+
+# Proyect Compilado
+__pycache__/
+
+#Docker
+Dockerfile
+.dockerignore
+docker-compose.yml
+
+#Git
+.gitignore
+.git
+
+#Readme
+README.md
