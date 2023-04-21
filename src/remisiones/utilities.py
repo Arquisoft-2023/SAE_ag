@@ -1,12 +1,10 @@
 from dacite import from_dict
 
 class mapper_remision:
-    def to_json(self, item, metodo):
+    def to_json(self, item):
         data = {}
         try:
             data = item.__dict__
-            if metodo == "asignar":
-                data["es_tutor"] = "Actual"
             return data
         except Exception as e:
             print(gestion.imprimir_error(self,"Error al convertir a to_json", 500, e))
@@ -30,8 +28,10 @@ class mapper:
 class gestion:
     def gestionar_respuesta_micro(self, response, data_class = None, tipo_respuesta = "Primitivo", key = None):
         try:
+            if response.status_code == 204:
+                return gestion.imprimir_mensaje(self,"True", 204)
             data = response.json()
-            if response.status_code == 200:
+            if response.status_code == 200 or response.status_code == 201:
                 if tipo_respuesta == "lista":
                     return mapper.mapper_lista(self, response, data_class)
                 elif tipo_respuesta == "uno":
@@ -39,7 +39,7 @@ class gestion:
                 elif tipo_respuesta == "uno_con_key":
                     return data[key]
                 elif tipo_respuesta == "boolean":
-                    return gestion.imprimir_mensaje(self, "True", 200)
+                    return gestion.imprimir_mensaje(self, "True", 204)
                 return data
             else:
                 return gestion.imprimir_mensaje(self, data["description"], data["status"])

@@ -20,13 +20,24 @@ class SolicitudesRemision:
     justificacion : str
     estado : bool
 
-@strawberry.type
-class NuevaSolicitudRemision:
+@strawberry.input
+class NuevaSolicitudRemisionInput:
     idTipoRemision : int
-    usuarioUnEstudiante : str
+    usuarioUnEstudiante : str   
     programaCurricular : str
     usuarioUnDocente : str
     justificacion : str
+
+@strawberry.type
+class NuevaSolicitudRemision:
+    idSolicitudRemision : int
+    tipoRemision : TiposRemision
+    usuarioUnEstudiante : str
+    programaCurricular : str
+    usuarioUnDocente : str
+    fechaSolicitudRemision : str
+    justificacion : str
+    estado : bool
 
 #Primeras Escuchas
 @strawberry.type
@@ -35,7 +46,12 @@ class PrimerasEscuchas:
     observacion : str
     fechaPrimeraEscucha : str
     realizada : bool
-    
+
+@strawberry.input
+class PrimeraEscuchaInput:
+    observacion : str
+    realizada : bool
+
 #Remisiones
 @strawberry.type
 class Remisiones:
@@ -51,3 +67,16 @@ class Remisiones:
     fechaEnvioRemision : str
     remisionEfectiva : bool
     primeraEscuchaRealizada : bool
+    
+@strawberry.input
+class NuevaRemisionInput:
+    idSolicitudRemision : int
+    fechaPrimeraEscucha : str
+
+@strawberry.type
+class NuevaRemision:
+    idRemision : int
+    solicitudRemision : NuevaSolicitudRemision
+    primeraEscucha : PrimerasEscuchas
+    fechaEnvioRemision : str
+    remisionEfectiva : bool

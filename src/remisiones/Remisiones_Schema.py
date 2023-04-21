@@ -2,11 +2,11 @@ import strawberry
 from fastapi import APIRouter
 from strawberry.asgi import GraphQL
 
-from remisiones.resolvers.Remision import Query
+from remisiones.resolvers.Remision import Query, Mutation
 
 remisiones = APIRouter()
 
-schema_remision = strawberry.Schema(Query)
+schema_remision = strawberry.Schema(Query,Mutation)
 # schema_observacion = strawberry.Schema(query, mutation)
 # schema_tutoria = strawberry.Schema(query, mutation)
 
