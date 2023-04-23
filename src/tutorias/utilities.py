@@ -1,3 +1,4 @@
+import json
 from dacite import from_dict
 
 class mapper_tutoria:
@@ -17,15 +18,13 @@ class mapper_tutoria:
             return data
 
 class mapper:
-    def mapper_lista(self, response, data_class):
+    def mapper_lista(self, response, data_class, data):
         lista_data = []
-        data = response.json()
         for item in data:
             lista_data.append(from_dict(data_class=data_class, data=item))
         return lista_data
     
-    def mapper_uno(self, response, data_class):
-        data = response.json()
+    def mapper_uno(self, response, data_class, data):
         res = from_dict(data_class=data_class, data=data)
         return res
     
@@ -38,12 +37,19 @@ class mapper:
 class gestion:
     def gestionar_respuesta_micro(self, response, data_class = None, tipo_respuesta = "Primitivo", key = None):
         try:
-            data = response.json()
-            if response.status_code == 200:
+            status = 500
+            if data_class != "Json":
+                data = response.json()
+                status = response.status_code
+            else:
+                data = response
+                status = data["status_code"]
+
+            if status == 200:
                 if tipo_respuesta == "lista":
-                    return mapper.mapper_lista(self, response, data_class)
+                    return mapper.mapper_lista(self, response, data_class, data)
                 elif tipo_respuesta == "uno":
-                    return mapper.mapper_uno(self, response, data_class)
+                    return mapper.mapper_uno(self, response, data_class, data)
                 elif tipo_respuesta == "uno_con_key":
                     return data[key]
                 elif tipo_respuesta == "boolean":
@@ -53,6 +59,12 @@ class gestion:
                 return gestion.imprimir_mensaje(self, data["description"], data["status"])
         except Exception as e:
             return gestion.imprimir_error(self,"Error al mapear", 500, e)
+    
+    def gestionar_query(self, item, query):
+        try:
+            return { "data": item, "query": query }
+        except Exception as e:
+            return gestion.imprimir_error(self,"Error al gestionar query", 500, e)
     
     def imprimir_error(self, description, status, e):
         return (str({ "description": description, "status": status, "error": str(e)}))
