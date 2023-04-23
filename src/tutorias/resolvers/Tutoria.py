@@ -5,7 +5,7 @@ import requests
 from tutorias.type_def.Acompanyamiento import acompanyamiento_input
 from tutorias.utilities import gestion, mapper_tutoria
 from tutorias.Server import url, port
-from tutorias.mq.send import send
+from tutorias.mq.Client_tutorias import send
 
 entryPoint = "tutoria"
 urlApi = f'http://{url}:{port}/{entryPoint}'
