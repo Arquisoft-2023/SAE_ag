@@ -43,7 +43,14 @@ class gestion:
                 status = response.status_code
             else:
                 data = response
-                status = data["status_code"]
+                if type(data) == dict:
+                    status = data["status_code"]
+                else:
+                    if type(data) == bool:
+                        if data:
+                            status = 200
+                        else:
+                            status = 500
 
             if status == 200:
                 if tipo_respuesta == "lista":

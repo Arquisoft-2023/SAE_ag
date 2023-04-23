@@ -7,9 +7,9 @@ idQueue = str('tutorias_rpc_queue')
 
 tutorias_rpc = tutoriasRpcClient(urlQueue, idQueue)
 
-def send(item):
+async def send(item):
     print(" [x] Requesting...")
-    response = tutorias_rpc.call(json.dumps(item))
+    response = await tutorias_rpc.call_async(json.dumps(item))
     print(" [.] Got!")
     response = json.loads(response) # convertir a diccionario
     return response

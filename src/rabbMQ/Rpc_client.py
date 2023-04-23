@@ -1,3 +1,4 @@
+import asyncio
 import pika
 import uuid
 
@@ -40,3 +41,8 @@ class client(object):
         self.connection.process_data_events(time_limit=None)
         self.response = self.response.decode('utf-8')
         return self.response
+
+    async def call_async(self, item):
+        loop = asyncio.get_running_loop()
+        response = await loop.run_in_executor(None, self.call, item)
+        return response
