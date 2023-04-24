@@ -2,6 +2,7 @@ import asyncio
 import pika
 import uuid
 
+
 class client(object):
 
     def __init__(self, urlQueue, idQueue):
@@ -12,9 +13,7 @@ class client(object):
     def connect(self):
         self.connection = pika.BlockingConnection(
           pika.ConnectionParameters(host=self.urlQueue, heartbeat=360, blocked_connection_timeout=65))
-
         self.channel = self.connection.channel()
-
         result = self.channel.queue_declare(queue='', exclusive=True)
         self.callback_queue = result.method.queue
         self.channel.basic_consume(
@@ -45,12 +44,12 @@ class client(object):
             self.connection.process_data_events(time_limit=None)
             self.response = self.response.decode('utf-8')
             return self.response
-        except Exception as e:
-            print(self.response)
-            print(e)
-            return (str({ "description": "Error call rpc_client", "status_code": 500, "error": str(e)}))
+        except pika.exceptions.AMQPConnectionError:
+            return "Channel is closed"
 
     async def call_async(self, item):
         loop = asyncio.get_running_loop()
         response = await loop.run_in_executor(None, self.call, item)
         return response
+        
+    

@@ -17,7 +17,7 @@ class query_acompanyamiento:
         return "Acompanyamiento"
     
     @strawberry.field
-    def obtener_acompanyamiento(self) -> typing.List[acompanyamiento]: 
+    async def obtener_acompanyamiento(self) -> typing.List[acompanyamiento]: 
         response = requests.request("GET", f'{urlApi}/all')
         return gestion.gestionar_respuesta_micro(self, response, acompanyamiento, "lista")
 

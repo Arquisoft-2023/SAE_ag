@@ -1,11 +1,13 @@
 # from strawberry.types import Info
 import strawberry
 import requests
+import asyncio
+import threading
 
 from tutorias.type_def.Acompanyamiento import acompanyamiento_input
 from tutorias.utilities import gestion, mapper_tutoria
 from tutorias.Server import url, port
-from tutorias.mq.Client_tutorias import send
+from tutorias.mq.Client_tutorias import send, go
 
 entryPoint = "tutoria"
 urlApi = f'http://{url}:{port}/{entryPoint}'
@@ -19,9 +21,8 @@ class query_tutoria:
     @strawberry.field
     async def testQueue(self) -> str:
         item = "Hola RabbitMQ!"
-        response = await send(gestion.gestionar_query(self, item, "testQueue"))
+        response = await go(gestion.gestionar_query(self, item, "testQueue"))
         return gestion.gestionar_respuesta_micro(self, response, data_class="Json", tipo_respuesta="boolean")
-    
 
 @strawberry.type
 class mutation_tutoria:
