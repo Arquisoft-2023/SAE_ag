@@ -11,11 +11,11 @@ load_dotenv()
 urlQueue = str(os.environ.get("URI_QUEUE"))
 idQueue = str(os.environ.get("ID_QUEUE"))
 
-tutorias_rpc = tutoriasRpcClient(urlQueue, idQueue)
 response_queue = queue.Queue()
 
 def send(item):
     try:
+        tutorias_rpc = tutoriasRpcClient(urlQueue, idQueue)
         print(" [x] Requesting...")
         # ejecutar_en_hilo(item, response_queue)
         # response = response_queue.get_nowait()
@@ -32,12 +32,12 @@ def send(item):
         print(e)
         return (str({ "description": "Error send rpc_client", "status_code": 500, "status": 500, "error": str(e)}))
  
-async def do_call(item, response_queue):
+async def do_call(item, response_queue, tutorias_rpc):
     response = await tutorias_rpc.call_async(json.dumps(item))
     response_queue.put(response)
 
-def ejecutar_en_hilo(item, response_queue):
-    hilo = threading.Thread(target=asyncio.run, args=(do_call(item, response_queue),))
+def ejecutar_en_hilo(item, response_queue, tutorias_rpc):
+    hilo = threading.Thread(target=asyncio.run, args=(do_call(item, response_queue, tutorias_rpc),))
     # hilo.setDaemon(True)
     hilo.start()
 
