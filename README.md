@@ -52,12 +52,17 @@ Para actualizar el archivo requirements.txt
 
     docker network create nodes-networks
 
-2 Contruir y ejecutar el contenedor:
+2 Para este paso es necesario detener el servicio de RabbitMQ si esta corriendo de forma local. Si no ha creado el contenedor de la cola de mensajes, ejecutar el siguiente comando:
+
+    docker run -d --name sae_mq -p 5672:5672 -p 15672:15672 --network=nodes-networks --network-alias=sae_mq rabbitmq:management-alpine
+
+
+3 Contruir y ejecutar el contenedor:
 
     docker-compose build --no-cache
 
     docker-compose up
 
-3 Detener el contenedor:
+4 Detener el contenedor:
     
     docker-compose down
