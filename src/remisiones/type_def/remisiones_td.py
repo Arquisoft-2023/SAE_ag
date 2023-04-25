@@ -2,6 +2,10 @@ from datetime import date
 import strawberry
 
 #Tipos de Remision
+@strawberry.input
+class TipoRemisionInput:
+    tipoRemision : str
+
 @strawberry.type
 class TiposRemision:
     idTipoRemision : int

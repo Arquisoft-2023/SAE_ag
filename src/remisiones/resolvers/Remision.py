@@ -62,6 +62,16 @@ class Query:
 @strawberry.type
 class Mutation:
     
+    #Tipos de Remision
+    @strawberry.mutation
+    async def crearTipoRemision(self, item: TipoRemisionInput) -> TiposRemision:
+        data = mapper_remision.to_json(self, item)
+        print(data)
+        response = requests.post(f'{urlApi}/tipo_remision/crear', json=data)
+        print(response.json())
+        print(response.status_code)
+        return gestion.gestionar_respuesta_micro(self, response,TiposRemision, "uno")
+
     #Solicitudes de Remision
     
     @strawberry.mutation
