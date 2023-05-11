@@ -29,12 +29,12 @@ class mutation_tutoria:
     @strawberry.mutation
     async def crear_tutoria(self, item: acompanyamiento_input) -> str:
         response = requests.request("POST", f'{urlApi}/crear', json=mapper_tutoria.to_json(self, item, metodo="crear_tutoria"))
-        return gestion.gestionar_respuesta_micro(self, response, data_class="Json", tipo_respuesta="boolean")
+        return gestion.gestionar_respuesta_micro(self, response, tipo_respuesta="boolean")
 
     @strawberry.mutation
     async def actualizar_tutoria_c(self, item: acompanyamiento_input) -> str:
         response = requests.request("PUT", f'{urlApi}/actualizar', json=mapper_tutoria.to_json(self, item, "crear_tutoria"))
-        return gestion.gestionar_respuesta_micro(self, response, data_class="Json", tipo_respuesta="boolean")
+        return gestion.gestionar_respuesta_micro(self, response, tipo_respuesta="boolean")
     
     @strawberry.mutation
     async def crear_tutoria_mq(self, item: acompanyamiento_input) -> str:

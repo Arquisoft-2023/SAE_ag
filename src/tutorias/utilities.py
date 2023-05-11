@@ -51,7 +51,6 @@ class gestion:
                             status = 200
                         else:
                             status = 500
-
             if status == 200:
                 if tipo_respuesta == "lista":
                     return mapper.mapper_lista(self, response, data_class, data)
