@@ -1,3 +1,5 @@
+from graphql import GraphQLError
+from pydantic import ValidationError
 import strawberry
 import requests
 from dacite import from_dict
@@ -30,9 +32,16 @@ class Query:
     @strawberry.field
     def buscar_un_usuario(self, usuario_un_a_buscar: str) -> UsuarioEsquema: 
         response = requests.request("GET", f'{urlApi}/usuarios/%7Busuario_un%7D?usuario_un_a_buscar={usuario_un_a_buscar}')
-        print(response.json())
-        return gestion.gestionar_respuesta_micro(self, response, UsuarioEsquema, "uno")
 
+        print("---------------------------inicio---------------------------------")
+        print(response.json())
+        print("-----------------------------final-------------------------------")
+        if response.json() == {'detail': 'El usuario no existe'}:
+            print(response.json() == {'detail': 'El usuario no existe'})
+            print("El usuario no existe")
+            raise GraphQLError("El usuario no existe")
+        else:
+            return gestion.gestionar_respuesta_micro(self, response, UsuarioEsquema, "uno")
     #Roles
 
     @strawberry.field
