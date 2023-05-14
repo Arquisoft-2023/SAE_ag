@@ -42,6 +42,14 @@ class NuevaSolicitudRemision:
     fechaSolicitudRemision : str
     justificacion : str
     estado : bool
+    
+@strawberry.input
+class EditSolicitudRemision:
+    idTipoRemision : int
+    usuarioUnEstudiante : str
+    programaCurricular : str
+    usuarioUnDocente : str
+    justificacion : str
 
 #Primeras Escuchas
 @strawberry.type

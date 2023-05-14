@@ -1,6 +1,7 @@
 from dotenv import load_dotenv
 from fastapi import FastAPI
 from pathlib import Path
+from starlette.middleware.cors import CORSMiddleware
 import os
 
 from gestionUsuarios.Index import gestionUsuarios
@@ -13,11 +14,12 @@ from starlette.middleware.cors import CORSMiddleware
 load_dotenv()
 app = FastAPI()
 
+# Configuracion provicional de CORS 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
     allow_methods=["*"],
-    allow_headers=["*"]
+    allow_headers=["*"],
 )
 
 app.include_router(gestionUsuarios, prefix="/gestionUsuarios")
