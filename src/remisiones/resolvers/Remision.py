@@ -71,6 +71,17 @@ class Mutation:
         print(response.json())
         print(response.status_code)
         return gestion.gestionar_respuesta_micro(self, response,TiposRemision, "uno")
+    
+    @strawberry.mutation
+    async def eliminarTipoRemision(self, id: int) -> str :
+        response = requests.delete(f'{urlApi}/tipo_remision/eliminar/{id}')
+        return gestion.gestionar_respuesta_micro(self, response, "boolean")
+    
+    @strawberry.mutation
+    async def editarTipoRemision(self, id: int, item: TipoRemisionInput) -> str:
+        data = mapper_remision.to_json(self, item)
+        response = requests.put(f'{urlApi}/tipo_remision/actualizar/{id}', json=data)
+        return gestion.gestionar_respuesta_micro(self,response, "boolean")
 
     #Solicitudes de Remision
     
@@ -87,6 +98,12 @@ class Mutation:
     async def eliminar_solicitud(self, id: int) -> str:
         response = requests.delete(f'{urlApi}/solicitud_remision/eliminar/{id}')
         return gestion.gestionar_respuesta_micro(self, response, "boolean")
+    
+    @strawberry.mutation
+    async def editarSolicitud(self, id: int, item: EditSolicitudRemision) -> str:
+        data = mapper_remision.to_json(self, item)
+        response = requests.put(f'{urlApi}/solicitud_remision/actulizar/{id}', json=data)
+        return gestion.gestionar_respuesta_micro(self,response, "boolean")
     
     #Remisiones
     
