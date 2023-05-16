@@ -64,8 +64,10 @@ class mutation_acompanyamiento:
         userTutor = item.usuario_un_tutor
         responseS = requests.request("GET", f'{urlApi2}/usuarios/%7Busuario_un%7D?usuario_un_a_buscar={userStudent}')
         responseT = requests.request("GET", f'{urlApi2}/usuarios/%7Busuario_un%7D?usuario_un_a_buscar={userTutor}')
-        if responseS.json() == {'detail': 'El usuario no existe'} or responseT.json() == {'detail': 'El usuario no existe'}:
+        if responseS.json() == {'detail': 'El usuario no existe'}:
             item.usuario_un_estudiante = "El usuario no existe"
+            return item
+        if responseT.json() == {'detail': 'El usuario no existe'}:
             item.usuario_un_tutor = "El usuario no existe"
             return item
         response = requests.request("POST", f'{urlApi}/asignar', json=mapper_tutoria.to_json(self, item, "asignar"))
@@ -73,5 +75,13 @@ class mutation_acompanyamiento:
 
     @strawberry.mutation
     async def actualizar_tutor(self, item: acompanyamiento_input) -> str:
+        userStudent = item.usuario_un_estudiante
+        userTutor = item.usuario_un_tutor
+        responseS = requests.request("GET", f'{urlApi2}/usuarios/%7Busuario_un%7D?usuario_un_a_buscar={userStudent}')
+        responseT = requests.request("GET", f'{urlApi2}/usuarios/%7Busuario_un%7D?usuario_un_a_buscar={userTutor}')
+        if responseS.json() == {'detail': 'El usuario no existe'}:
+            return "El usuario no existe"
+        if responseT.json() == {'detail': 'El usuario no existe'}:
+            return "El usuario no existe"
         response = requests.request("PUT", f'{urlApi}/actualizar', json=mapper_tutoria.to_json(self, item, "asignar"))
         return gestion.gestionar_respuesta_micro(self, response, tipo_respuesta="boolean")
