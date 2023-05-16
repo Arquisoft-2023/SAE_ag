@@ -4,11 +4,16 @@ import requests
 import typing
 
 from tutorias.Server import url, port
+from gestionUsuarios.Server import url as url2, port as port2
 from tutorias.type_def.Acompanyamiento import acompanyamiento, acompanyamiento_input
 from tutorias.utilities import gestion, mapper_tutoria
+from gestionUsuarios.type_def.gestionUsuarios_td import *
 
 entryPoint = "acompanyamiento"
 urlApi = f'http://{url}:{port}/{entryPoint}'
+
+entryPoint2 = "bienestar"
+urlApi2 = f'http://{url2}:{port2}/{entryPoint2}'
 
 @strawberry.type
 class query_acompanyamiento:
@@ -55,6 +60,14 @@ class query_acompanyamiento:
 class mutation_acompanyamiento:
     @strawberry.mutation
     async def asignar_tutor(self, item: acompanyamiento_input) -> acompanyamiento:
+        userStudent = item.usuario_un_estudiante
+        userTutor = item.usuario_un_tutor
+        responseS = requests.request("GET", f'{urlApi2}/usuarios/%7Busuario_un%7D?usuario_un_a_buscar={userStudent}')
+        responseT = requests.request("GET", f'{urlApi2}/usuarios/%7Busuario_un%7D?usuario_un_a_buscar={userTutor}')
+        if responseS.json() == {'detail': 'El usuario no existe'} or responseT.json() == {'detail': 'El usuario no existe'}:
+            item.usuario_un_estudiante = "El usuario no existe"
+            item.usuario_un_tutor = "El usuario no existe"
+            return item
         response = requests.request("POST", f'{urlApi}/asignar', json=mapper_tutoria.to_json(self, item, "asignar"))
         return gestion.gestionar_respuesta_micro(self, response, acompanyamiento,  "uno")
 
