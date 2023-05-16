@@ -10,7 +10,7 @@ services:
     env_file:
       - .env
     ports:
-      - "127.0.0.8:3121:80"
+      - "0.0.0.0:3121:80"
     # hostname: sae_ag
     networks:
       nodes-networks:
