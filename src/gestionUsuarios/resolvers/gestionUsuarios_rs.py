@@ -4,6 +4,7 @@ import strawberry
 import requests
 from dacite import from_dict
 
+
 # from strawberry.types import Info
 from gestionUsuarios.Server import url, port
 from gestionUsuarios.type_def.gestionUsuarios_td import *
@@ -25,32 +26,55 @@ class Query:
     #Usuarios
 
     @strawberry.field
-    def leer_usuarios(self) -> typing.List[UsuarioEsquema]:
+    async def leer_usuarios(self) -> typing.List[UsuarioEsquema]:
         response = requests.request("GET", f'{urlApi}/usuarios')
         return gestion.gestionar_respuesta_micro(self, response, UsuarioEsquema, "lista")
     
     @strawberry.field
-    def buscar_un_usuario(self, usuario_un_a_buscar: str) -> UsuarioEsquema: 
+    async def buscar_un_usuario(self, usuario_un_a_buscar: str) -> UsuarioEsquema: 
         response = requests.request("GET", f'{urlApi}/usuarios/%7Busuario_un%7D?usuario_un_a_buscar={usuario_un_a_buscar}')
         if response.json() == {'detail': 'El usuario no existe'}:
             raise GraphQLError("El usuario no existe")
         else:
             return gestion.gestionar_respuesta_micro(self, response, UsuarioEsquema, "uno")
-        
+    
+    
+    @strawberry.field
+    async def obtener_token_web(self, usuario_un_a_buscar: str) -> tokenResponse:
+        response = requests.request("GET", f'{urlApi}/usuarios/web/%7BusuarioWeb%7D?usuario_web={usuario_un_a_buscar}')
+        if response.json() == {'detail': 'El usuario no existe'}:
+            raise GraphQLError("El usuario no existe")
+        else:
+            respuesta = tokenResponse(token=response.json()['token'], usuario=response.json()['usuario'])
+            return respuesta
+    
+    
+    @strawberry.field
+    async def obtener_token_movile(self, usuario_un_a_buscar: str) -> tokenResponse:
+        response = requests.request("GET", f'{urlApi}/usuarios/movile/%7BusuarioMovile%7D?usuario_movile={usuario_un_a_buscar}')
+        if response.json() == {'detail': 'El usuario no existe'}:
+            raise GraphQLError("El usuario no existe")
+        else:
+            respuesta = tokenResponse(token=response.json()['token'], usuario=response.json()['usuario'])
+            return respuesta
+    
+    
+
     #Roles
 
     @strawberry.field
-    def leer_roles(self) -> typing.List[RolEsquema]:
+    async def leer_roles(self) -> typing.List[RolEsquema]:
         response = requests.request("GET", f'{urlApi}/usuariosRol')
         return gestion.gestionar_respuesta_micro(self, response, RolEsquema, "lista")
 
     #UsuariosRoles
 
     @strawberry.field
-    def leer_usuarios_roles(self) -> typing.List[UsuarioRolEsquema]:
+    async def leer_usuarios_roles(self) -> typing.List[UsuarioRolEsquema]:
         response = requests.request("GET", f'{urlApi}/usuariosRoles/usuariosRol')
         return gestion.gestionar_respuesta_micro(self, response, UsuarioRolEsquema, "lista")
     
+    """
     #Departamentos
 
     @strawberry.field
@@ -109,6 +133,8 @@ class Query:
         dict['fecha_nacimiento'] = datetime.strptime(dict['fecha_nacimiento'], '%Y-%m-%d').date()
         return from_dict(data_class=InformacionPersonalDelEstudianteEsquema, data=dict)
 
+    """
+        
 @strawberry.type
 class Mutation:
 
@@ -135,6 +161,34 @@ class Mutation:
     async def eliminar_usuario(self, usuario_un_a_buscar: str) -> typing.List[UsuarioEsquema]:
         response = requests.delete(f'{urlApi}/usuarios/%7Busuario_un%7D?usuario_un_a_econtrar={usuario_un_a_buscar}')
         return gestion.gestionar_respuesta_micro(self, response, UsuarioEsquema, "lista")
+
+
+    
+
+    @strawberry.mutation
+    async def modificar_token_usuario_web (self, usuario_web: str, token_nuevo: str) -> tokenResponse:
+        response = requests.put(f'{urlApi}/usuarios/web/%7BusuarioWeb%7D&%7BtokenWeb%7D?usuario_web={usuario_web}&token_nuevo={token_nuevo}')
+
+        return tokenResponse(token=response.json()['token'], usuario=response.json()['usuario'])
+    
+    @strawberry.mutation
+    async def modificar_token_usuario_movil (self, usuario_movile: str, token_nuevo: str) -> tokenResponse:
+        response = requests.put(f'{urlApi}/usuarios/movile/%7BusuarioMovile%7D&%7BtokenMovile%7D?usuario_movile={usuario_movile}&token_nuevo={token_nuevo}')
+        return tokenResponse(token=response.json()['token'], usuario=response.json()['usuario'])
+    
+    @strawberry.mutation
+    async def eliminar_token_usuario_web (self, usuario_web: str) -> tokenResponse:
+
+        response = requests.delete(f'{urlApi}/usuarios/web/%7BusuarioWeb%7D?usuario_web={usuario_web}')
+        return tokenResponse(token=response.json()['token'], usuario=response.json()['usuario'])
+    
+    @strawberry.mutation
+    async def eliminar_token_usuario_movil (self, usuario_movile: str) -> tokenResponse:
+        response = requests.delete(f'{urlApi}/usuarios/movile/%7BusuarioMovile%7D?usuario_movile={usuario_movile}')
+        return tokenResponse(token=response.json()['token'], usuario=response.json()['usuario'])
+
+        
+    
 
     #Roles
 
@@ -170,6 +224,7 @@ class Mutation:
         response = requests.put(f'{urlApi}/usuariosRoles/usuariosRol/%7Busuario_un%7D&%7Brol_id%7D?usuario_un_a_buscar={usuario_un}&rol_id_nuevo={rol_nuevo}')
         return response
     
+    """
     #Departamentos
 
     @strawberry.mutation
@@ -315,3 +370,5 @@ class Mutation:
     async def eliminar_informacion_personal_estudiante(self, usuario_un: str ) -> str:
         response = requests.delete(f'{urlApi2}/informacionPersonal/{usuario_un}')
         return gestion.gestionar_respuesta_micro(self, response, InformacionPersonalDelEstudianteEsquema, "")
+
+    """

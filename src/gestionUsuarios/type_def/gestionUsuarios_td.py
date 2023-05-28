@@ -10,6 +10,8 @@ class UsuarioEsquema:
     apellidos : str
     documento : str
     tipo_documento : bool
+    token_web : str
+    token_movile : str
 
 @strawberry.input
 class UsuarioEsquemaInput:
@@ -19,7 +21,13 @@ class UsuarioEsquemaInput:
     apellidos : str
     documento : str
     tipo_documento : bool
+    token_web : str
+    token_movile : str
 
+@strawberry.type
+class tokenResponse:
+    token: str
+    usuario:str
 
 #Roles
 @strawberry.type
@@ -42,6 +50,7 @@ class UsuarioRolEsquemaInput:
     usuario_un: str
     rol_id: int
 
+"""
 #Departamentos
 @strawberry.type
 class DepartamentoEsquema:
@@ -132,3 +141,4 @@ class InformacionPersonalDelEstudianteEsquemaInput:
     relacion_acudiente : str
     telefono_acudiente : str
     usuario_un : str
+"""
