@@ -7,6 +7,7 @@ import os
 from gestionUsuarios.Index import gestionUsuarios
 from autenticacion.Index import autenticacion
 from formularios.Index import formularios
+from interfaceSOAP.Index import interface
 from remisiones.Index import remisiones
 from tutorias.Index import tutorias
 from starlette.middleware.cors import CORSMiddleware
@@ -27,6 +28,7 @@ app.include_router(formularios, prefix="/formularios")
 app.include_router(remisiones, prefix="/remisiones")
 app.include_router(autenticacion, prefix="/auth")
 app.include_router(tutorias, prefix="/tutorias")
+app.include_router(interface, prefix="/interface")
 
 
 

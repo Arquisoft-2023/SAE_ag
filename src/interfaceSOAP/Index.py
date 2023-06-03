@@ -1,0 +1,1 @@
+from interfaceSOAP.Interface_Schema import interface
