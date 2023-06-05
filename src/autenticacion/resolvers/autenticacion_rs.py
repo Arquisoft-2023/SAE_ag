@@ -18,11 +18,20 @@ class Query:
 
 @strawberry.type
 class Mutation:
+    # @strawberry.mutation
+    # async def signin(self, item: UsuarioAuthInput) -> UsuarioAuthWithToken:
+    #     userInGestionUsuarios = gestionUsuariosQuery.buscar_un_usuario(self, usuario_un_a_buscar = item.usuario_un)
+    #     response = requests.request("POST", f'{urlApi}/signin', json=mapper_general.to_json(self, userInGestionUsuarios))
+    #     return gestion.gestionar_respuesta_micro(self, response, UsuarioAuthWithToken, "uno")
     @strawberry.mutation
     async def signin(self, item: UsuarioAuthInput) -> UsuarioAuthWithToken:
         userInGestionUsuarios = gestionUsuariosQuery.buscar_un_usuario(self, usuario_un_a_buscar = item.usuario_un)
-        response = requests.request("POST", f'{urlApi}/signin', json=mapper_general.to_json(self, userInGestionUsuarios))
-        return gestion.gestionar_respuesta_micro(self, response, UsuarioAuthWithToken, "uno")
+        if userInGestionUsuarios:
+            response = requests.request("POST", f'{urlApi}/signin', json=mapper_general.to_json(self, UsuarioAuthInput))
+            return gestion.gestionar_respuesta_micro(self, response, UsuarioAuthWithToken, "uno")
+        else:
+            return None
+
 
     @strawberry.mutation
     async def signout(self) -> UsuarioAuthGeneral:
