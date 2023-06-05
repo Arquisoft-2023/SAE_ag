@@ -3,7 +3,8 @@ import strawberry
 @strawberry.input
 class UsuarioAuthInput:
     usuario_un : str
-    usuario_password: str
+    password: str
+    tokentype: str
 @strawberry.type
 class UsuarioAuthGeneral:
     message: str
