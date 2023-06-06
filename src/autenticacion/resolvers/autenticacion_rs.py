@@ -19,7 +19,7 @@ class Query:
 @strawberry.type
 class Mutation:
     @strawberry.mutation
-    async def signin(self, item: UsuarioAuthInput) -> any:
+    async def signin(self, item: UsuarioAuthInput) -> UsuarioAuthWithToken:
         userInGestionUsuarios = gestionUsuariosQuery.buscar_un_usuario(self, usuario_un_a_buscar = item.usuario_un)
         if userInGestionUsuarios:
             data = {'usuario_un': item.usuario_un, 'password': item.password }
