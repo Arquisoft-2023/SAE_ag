@@ -29,7 +29,7 @@ class Mutation:
             content = response.text
             # Analizar la cadena JSON en "content"
             response_data = json.loads(content)
-            return gestion.gestionar_respuesta_micro(self, response_data, UsuarioAuthWithToken, "uno")
+            return UsuarioAuthWithToken(ldapRes=response_data['ldapRes'], usuario_un=response_data['usuario_un'], token=response_data['token'])
             
         else:
             return {"error": "Usuario inexistente"}
