@@ -26,7 +26,8 @@ class Mutation:
     @strawberry.mutation
     async def signin(self, item: UsuarioAuthInput) -> UsuarioAuthWithToken:
         ldapAuthMS = requests.request("POST", f'{urlApi}/signin', json=mapper_general.to_json(self, UsuarioAuthInput))
-        return gestion.gestionar_respuesta_micro(self, ldapAuthMS, UsuarioAuthWithToken, "uno")
+        modificadoLDAP = str(ldapAuthMS)
+        return modificadoLDAP
         # userInGestionUsuarios = gestionUsuariosQuery.buscar_un_usuario(self, usuario_un_a_buscar = item.usuario_un)
         # if userInGestionUsuarios:
         #     ldapAuthMS = requests.request("POST", f'{urlApi}/signin', json=mapper_general.to_json(self, UsuarioAuthInput))
