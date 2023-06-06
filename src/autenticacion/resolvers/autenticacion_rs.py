@@ -20,7 +20,7 @@ class Query:
 @strawberry.type
 class Mutation:
     @strawberry.mutation
-    async def signin(self, usuario_un: str, password: str, tokentype: str) -> UsuarioAuthWithToken:
+    async def signin(self, usuario_un: str, password: str, tokentype: str) -> str:
         userInGestionUsuarios = gestionUsuariosQuery.buscar_un_usuario(self, usuario_un_a_buscar = usuario_un)
         if userInGestionUsuarios:
             data = {'usuario_un': usuario_un, 'password': password }
@@ -32,17 +32,8 @@ class Mutation:
             # Acceder a los valores
             signin_data = response_data["data"]["signin"]
             signin_data = json.loads(signin_data)  # Analizar nuevamente la cadena JSON en "signin"
-
-            # Acceder a los valores
-            ldap_res = signin_data["ldapRes"]
-            usuario_un = signin_data["usuario_un"]
-            token = signin_data["token"]
-            usuarioOut = UsuarioAuthWithToken(
-                ldapRes = ldap_res,
-                usuario_un = usuario_un,
-                token = token
-            )
-            return gestion.gestionar_respuesta_micro(self, usuarioOut, UsuarioAuthWithToken, "uno")
+            return signin_data
+            
         else:
             return "Usuario inexistente"
     # @strawberry.mutation
