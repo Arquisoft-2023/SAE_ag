@@ -29,10 +29,7 @@ class Mutation:
             content = response.text
             # Analizar la cadena JSON en "content"
             response_data = json.loads(content)
-            # Acceder a los valores
-            signin_data = response_data["data"]["signin"]
-            signin_data = json.loads(signin_data)  # Analizar nuevamente la cadena JSON en "signin"
-            return signin_data
+            return response_data
             
         else:
             return "Usuario inexistente"
