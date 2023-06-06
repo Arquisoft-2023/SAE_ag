@@ -49,7 +49,7 @@ class Mutation:
     async def verifyTokens(self, tokenLocalStorage: str, usuario_un: str) -> str:
         tokenDBGestion = await gestionUsuariosQuery.obtener_token_web(self, usuario_un_a_buscar= usuario_un)
         if tokenDBGestion:
-            data = {'tokenDB': tokenDBGestion['token'], 'tokenLocalStorage': tokenLocalStorage }
+            data = {'tokenDB': tokenDBGestion.token, 'tokenLocalStorage': tokenLocalStorage }
             url = f'{urlApi}/tokensVerify'
             response = requests.post(url, data=data)
             content = response.text
