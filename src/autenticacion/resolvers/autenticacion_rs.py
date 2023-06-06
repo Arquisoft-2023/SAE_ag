@@ -22,6 +22,7 @@ class Mutation:
     @strawberry.mutation
     async def signin(self, usuario_un: str, password: str, tokentype: str) -> UsuarioAuthWithToken:
         userInGestionUsuarios = gestionUsuariosQuery.buscar_un_usuario(self, usuario_un_a_buscar = usuario_un)
+        returnBad = UsuarioAuthWithToken(ldapRes="Error", usuario_un="Error", token="Error")
         if userInGestionUsuarios:
             data = {'usuario_un': usuario_un, 'password': password }
             url = f'{urlApi}/signin'
@@ -29,44 +30,15 @@ class Mutation:
             content = response.text
             # Analizar la cadena JSON en "content"
             response_data = json.loads(content)
-            if response_data and response_data['ldapRes'] == True:
+            if response_data and response_data['ldapRes'] == "true":
                 if tokentype == "web":
-                    gestionMSTokenWeb = gestionUsuariosMutation.modificar_token_usuario_web(self, usuario_web = usuario_un, token_nuevo = response_data['token'])
+                    gestionUsuariosMutation.modificar_token_usuario_web(self, usuario_web = usuario_un, token_nuevo = response_data['token'])
                 if tokentype == "movil":
-                    gestionMSTokenMovil = gestionUsuariosMutation.modificar_token_usuario_movil(self, usuario_movil = usuario_un, token_nuevo = response_data['token'])
+                    gestionUsuariosMutation.modificar_token_usuario_movil(self, usuario_movil = usuario_un, token_nuevo = response_data['token'])
             return UsuarioAuthWithToken(ldapRes=response_data['ldapRes'], usuario_un=response_data['usuario_un'], token=response_data['token'])
             
         else:
-            return None
-    # @strawberry.mutation
-    # async def signin(self, usuario_un: str, password: str) -> str:
-    #     url = f'{urlApi}/signin'
-    #     data = {'usuario_un': usuario_un, 'password': password}
-
-    #     response = requests.post(url, data=data)
-    #     content = response.text
-
-    #     return content
-    #async def signin(self, item: UsuarioAuthInput):
-        
-        # ldapAuthMS = requests.request("POST", f'{urlApi}/signin', json=mapper_general.to_json(self, UsuarioAuthInput))
-        # return ldapAuthMS
-        # userInGestionUsuarios = gestionUsuariosQuery.buscar_un_usuario(self, usuario_un_a_buscar = item.usuario_un)
-        # if userInGestionUsuarios:
-        #     ldapAuthMS = requests.request("POST", f'{urlApi}/signin', json=mapper_general.to_json(self, UsuarioAuthInput))
-        #     ldapAuthMSToken = ldapAuthMS.token
-        #     if ldapAuthMS and ldapAuthMSToken:
-        #         if item.tokentype == "web":
-        #             gestionMSTokenWeb = gestionUsuariosMutation.modificar_token_usuario_web(self, usuario_web = item.usuario_un, token_nuevo = ldapAuthMSToken)
-        #             return gestionMSTokenWeb
-        #         if item.tokentype == "movil":
-        #             gestionMSTokenMovil = gestionUsuariosMutation.modificar_token_usuario_movil(self, usuario_movil = item.usuario_un, token_nuevo = ldapAuthMSToken)
-        #             return gestionMSTokenMovil
-        #     else:    
-        #         return None
-        # else:
-        #     return None
-
+            return returnBad
 
     @strawberry.mutation
     async def signout(self) -> UsuarioAuthGeneral:
