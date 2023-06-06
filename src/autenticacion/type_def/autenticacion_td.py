@@ -11,7 +11,7 @@ class UsuarioAuthGeneral:
     #rol: str
 @strawberry.type
 class UsuarioAuthWithToken:
+    ldapRes : str
     usuario_un : str
-    estado : bool
     token: str
     
