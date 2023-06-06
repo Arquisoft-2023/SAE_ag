@@ -31,12 +31,13 @@ class Mutation:
             # Analizar la cadena JSON en "content"
             response_data = json.loads(content)
             if tokentype == "web":
-                resultWeb = gestionUsuariosMutation.modificar_token_usuario_web(self, usuario_web = usuario_un, token_nuevo = response_data['token'])
-            if tokentype == "movil":
-                resultMovil = gestionUsuariosMutation.modificar_token_usuario_movil(self, usuario_movil = usuario_un, token_nuevo = response_data['token'])
-            if resultWeb and resultMovil:
+                resWeb = gestionUsuariosMutation.modificar_token_usuario_web(self, usuario_web = usuario_un, token_nuevo = response_data['token'])
+                print(resWeb)
                 return UsuarioAuthWithToken(ldapRes=response_data['ldapRes'], usuario_un=response_data['usuario_un'], token=response_data['token'])
-            
+            if tokentype == "movil":
+                resMov = gestionUsuariosMutation.modificar_token_usuario_movil(self, usuario_movil = usuario_un, token_nuevo = response_data['token'])
+                print(resMov)
+                return UsuarioAuthWithToken(ldapRes=response_data['ldapRes'], usuario_un=response_data['usuario_un'], token=response_data['token'])
         else:
             return returnBad
 
