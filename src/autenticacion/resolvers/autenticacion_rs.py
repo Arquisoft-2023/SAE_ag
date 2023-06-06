@@ -24,12 +24,12 @@ class Mutation:
     #     response = requests.request("POST", f'{urlApi}/signin', json=mapper_general.to_json(self, userInGestionUsuarios))
     #     return gestion.gestionar_respuesta_micro(self, response, UsuarioAuthWithToken, "uno")
     @strawberry.mutation
-    async def signin(self, usuario_un: str, password: str) -> dict:
+    async def signin(self, usuario_un: str, password: str) -> str:
         url = f'{urlApi}/signin'
         data = {'usuario_un': usuario_un, 'password': password}
 
         response = requests.post(url, data=data)
-        content = response.json()
+        content = response.text
 
         return content
     #async def signin(self, item: UsuarioAuthInput):
