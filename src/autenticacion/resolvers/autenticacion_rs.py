@@ -26,8 +26,8 @@ class Mutation:
             data = {'usuario_un': usuario_un, 'password': password }
             url = f'{urlApi}/signin'
             response = requests.post(url, data=data)
-            signin_data = json.loads(response["data"]["signin"])
-            return json.dumps(signin_data)
+            content = response.text
+            return content
         else:
             return "Usuario inexistente"
     # @strawberry.mutation
