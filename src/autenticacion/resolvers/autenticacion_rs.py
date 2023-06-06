@@ -20,7 +20,7 @@ class Query:
 @strawberry.type
 class Mutation:
     @strawberry.mutation
-    async def signin(self, usuario_un: str, password: str, tokentype: str) -> typing.Dict[str, typing.Any]:
+    async def signin(self, usuario_un: str, password: str, tokentype: str) -> UsuarioAuthWithToken:
         userInGestionUsuarios = gestionUsuariosQuery.buscar_un_usuario(self, usuario_un_a_buscar = usuario_un)
         if userInGestionUsuarios:
             data = {'usuario_un': usuario_un, 'password': password }
@@ -29,7 +29,7 @@ class Mutation:
             content = response.text
             # Analizar la cadena JSON en "content"
             response_data = json.loads(content)
-            return response_data
+            return gestion.gestionar_respuesta_micro(self, response_data, UsuarioAuthWithToken, "uno")
             
         else:
             return {"error": "Usuario inexistente"}
