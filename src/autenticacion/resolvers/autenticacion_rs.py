@@ -7,6 +7,7 @@ from autenticacion.Server import url, port
 from autenticacion.type_def.autenticacion_td import UsuarioAuthInput, UsuarioAuthWithToken, UsuarioAuthGeneral
 from autenticacion.utilities import gestion, mapper_general
 from gestionUsuarios.resolvers.gestionUsuarios_rs import Query as gestionUsuariosQuery, Mutation as gestionUsuariosMutation
+from gestionUsuarios.type_def.gestionUsuarios_td import tokenResponse as TokenGestionResponse
 
 entryPoint = "auth"
 urlApi = f'http://{url}:{port}/{entryPoint}'
@@ -40,6 +41,7 @@ class Mutation:
             return returnBad
 
     @strawberry.mutation
-    async def signout(self) -> UsuarioAuthGeneral:
-         responseOut = requests.request("PUT", f'{urlApi}/signout')
-         return gestion.gestionar_respuesta_micro(self, responseOut, UsuarioAuthGeneral, "uno")
+    async def signout(self, usuario_un: str) -> TokenGestionResponse:
+        if usuario_un:
+           return await gestionUsuariosMutation.eliminar_token_usuario_web(self, usuario_web = usuario_un)
+            
