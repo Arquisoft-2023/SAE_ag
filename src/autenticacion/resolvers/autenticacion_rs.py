@@ -19,10 +19,10 @@ class Query:
 @strawberry.type
 class Mutation:
     @strawberry.mutation
-    async def signin(self, item: UsuarioAuthInput) -> UsuarioAuthWithToken:
-        userInGestionUsuarios = gestionUsuariosQuery.buscar_un_usuario(self, usuario_un_a_buscar = item.usuario_un)
+    async def signin(self, usuario_un: str, password: str, tokentype: str) -> UsuarioAuthWithToken:
+        userInGestionUsuarios = gestionUsuariosQuery.buscar_un_usuario(self, usuario_un_a_buscar = usuario_un)
         if userInGestionUsuarios:
-            data = {'usuario_un': item.usuario_un, 'password': item.password }
+            data = {'usuario_un': usuario_un, 'password': password }
             url = f'{urlApi}/signin'
             response = requests.post(url, data=data)
             return gestion.gestionar_respuesta_micro(self, response, UsuarioAuthWithToken, "uno")
