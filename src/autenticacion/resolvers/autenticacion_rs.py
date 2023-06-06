@@ -25,21 +25,23 @@ class Mutation:
     #     return gestion.gestionar_respuesta_micro(self, response, UsuarioAuthWithToken, "uno")
     @strawberry.mutation
     async def signin(self, item: UsuarioAuthInput) -> UsuarioAuthWithToken:
-        userInGestionUsuarios = gestionUsuariosQuery.buscar_un_usuario(self, usuario_un_a_buscar = item.usuario_un)
-        if userInGestionUsuarios:
-            ldapAuthMS = requests.request("POST", f'{urlApi}/signin', json=mapper_general.to_json(self, UsuarioAuthInput))
-            ldapAuthMSToken = ldapAuthMS.token
-            if ldapAuthMS and ldapAuthMSToken:
-                if item.tokentype == "web":
-                    gestionMSTokenWeb = gestionUsuariosMutation.modificar_token_usuario_web(self, usuario_web = item.usuario_un, token_nuevo = ldapAuthMSToken)
-                    return gestionMSTokenWeb
-                if item.tokentype == "movil":
-                    gestionMSTokenMovil = gestionUsuariosMutation.modificar_token_usuario_movil(self, usuario_movil = item.usuario_un, token_nuevo = ldapAuthMSToken)
-                    return gestionMSTokenMovil
-            else:    
-                return None
-        else:
-            return None
+        ldapAuthMS = requests.request("POST", f'{urlApi}/signin', json=mapper_general.to_json(self, UsuarioAuthInput))
+        return gestion.gestionar_respuesta_micro(self, ldapAuthMS, UsuarioAuthWithToken, "uno")
+        # userInGestionUsuarios = gestionUsuariosQuery.buscar_un_usuario(self, usuario_un_a_buscar = item.usuario_un)
+        # if userInGestionUsuarios:
+        #     ldapAuthMS = requests.request("POST", f'{urlApi}/signin', json=mapper_general.to_json(self, UsuarioAuthInput))
+        #     ldapAuthMSToken = ldapAuthMS.token
+        #     if ldapAuthMS and ldapAuthMSToken:
+        #         if item.tokentype == "web":
+        #             gestionMSTokenWeb = gestionUsuariosMutation.modificar_token_usuario_web(self, usuario_web = item.usuario_un, token_nuevo = ldapAuthMSToken)
+        #             return gestionMSTokenWeb
+        #         if item.tokentype == "movil":
+        #             gestionMSTokenMovil = gestionUsuariosMutation.modificar_token_usuario_movil(self, usuario_movil = item.usuario_un, token_nuevo = ldapAuthMSToken)
+        #             return gestionMSTokenMovil
+        #     else:    
+        #         return None
+        # else:
+        #     return None
 
 
     @strawberry.mutation
