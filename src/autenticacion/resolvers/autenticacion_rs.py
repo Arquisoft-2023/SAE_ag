@@ -25,7 +25,11 @@ class Mutation:
             data = {'usuario_un': usuario_un, 'password': password }
             url = f'{urlApi}/signin'
             response = requests.post(url, data=data)
-            return gestion.gestionar_respuesta_micro(self, response, UsuarioAuthWithToken, "uno")
+            if "usuario_un" in response and "password" in response:
+                return UsuarioAuthWithToken(ldapRes=response["ldapRes"], usuario_un=response["usuario_un"], password=response["password"] )
+            else:
+                return None
+            #return gestion.gestionar_respuesta_micro(self, response, UsuarioAuthWithToken, "uno")
         else:
             return {'msg' : "Usuario inexistente"}
     # @strawberry.mutation
