@@ -19,19 +19,16 @@ class Query:
 @strawberry.type
 class Mutation:
     @strawberry.mutation
-    async def signin(self, usuario_un: str, password: str, tokentype: str) -> UsuarioAuthWithToken:
+    async def signin(self, usuario_un: str, password: str, tokentype: str) -> str:
         userInGestionUsuarios = gestionUsuariosQuery.buscar_un_usuario(self, usuario_un_a_buscar = usuario_un)
         if userInGestionUsuarios:
             data = {'usuario_un': usuario_un, 'password': password }
             url = f'{urlApi}/signin'
             response = requests.post(url, data=data)
-            if "usuario_un" in response and "password" in response:
-                return UsuarioAuthWithToken(ldapRes=response["ldapRes"], usuario_un=response["usuario_un"], password=response["password"] )
-            else:
-                return None
+            return response.text
             #return gestion.gestionar_respuesta_micro(self, response, UsuarioAuthWithToken, "uno")
         else:
-            return {'msg' : "Usuario inexistente"}
+            return "Usuario inexistente"
     # @strawberry.mutation
     # async def signin(self, usuario_un: str, password: str) -> str:
     #     url = f'{urlApi}/signin'
