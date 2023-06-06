@@ -48,8 +48,10 @@ class Mutation:
     @strawberry.mutation
     async def verifyTokens(self, tokenLocalStorage: str, usuario_un: str) -> str:
         tokenDBGestion = await gestionUsuariosQuery.obtener_token_web(self, usuario_un_a_buscar= usuario_un)
+        contentGestion = tokenDBGestion.text
+        response_dataGestion = json.loads(contentGestion)
         if tokenDBGestion:
-            data = {'tokenDB': tokenDBGestion.token, 'tokenLocalStorage': tokenLocalStorage }
+            data = {'tokenDB': response_dataGestion['token'], 'tokenLocalStorage': tokenLocalStorage }
             url = f'{urlApi}/tokensVerify'
             response = requests.post(url, data=data)
             content = response.text
