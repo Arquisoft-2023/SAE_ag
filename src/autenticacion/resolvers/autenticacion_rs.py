@@ -1,6 +1,7 @@
 import strawberry
 import requests
 import typing
+import json
 
 from autenticacion.Server import url, port
 from autenticacion.type_def.autenticacion_td import UsuarioAuthInput, UsuarioAuthWithToken, UsuarioAuthGeneral
@@ -19,13 +20,19 @@ class Query:
 @strawberry.type
 class Mutation:
     @strawberry.mutation
-    async def signin(self, usuario_un: str, password: str, tokentype: str) -> str:
+    async def signin(self, usuario_un: str, password: str, tokentype: str) -> UsuarioAuthWithToken:
         userInGestionUsuarios = gestionUsuariosQuery.buscar_un_usuario(self, usuario_un_a_buscar = usuario_un)
         if userInGestionUsuarios:
             data = {'usuario_un': usuario_un, 'password': password }
             url = f'{urlApi}/signin'
             response = requests.post(url, data=data)
-            return response.text
+            if isinstance(response, str):
+                response = json.loads(response)
+            return UsuarioAuthWithToken(
+                ldapRes=response["ldapRes"],
+                usuario_un=response["usuario_un"],
+                token=response["token"]
+            )
             #return gestion.gestionar_respuesta_micro(self, response, UsuarioAuthWithToken, "uno")
         else:
             return "Usuario inexistente"
