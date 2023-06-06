@@ -4,7 +4,7 @@ import typing
 import json
 
 from autenticacion.Server import url, port
-from autenticacion.type_def.autenticacion_td import UsuarioAuthInput, UsuarioAuthWithToken, UsuarioAuthGeneral
+from autenticacion.type_def.autenticacion_td import UsuarioAuthInput, UsuarioAuthWithToken, UsuarioAuthGeneral, TokensVerify
 from autenticacion.utilities import gestion, mapper_general
 from gestionUsuarios.resolvers.gestionUsuarios_rs import Query as gestionUsuariosQuery, Mutation as gestionUsuariosMutation
 from gestionUsuarios.type_def.gestionUsuarios_td import tokenResponse as TokenGestionResponse
@@ -44,4 +44,15 @@ class Mutation:
     async def signout(self, usuario_un: str) -> TokenGestionResponse:
         if usuario_un:
            return await gestionUsuariosMutation.eliminar_token_usuario_web(self, usuario_web = usuario_un)
-            
+    
+    @strawberry.mutation
+    async def verifyTokens(self, tokenLocalStorage: str, usuario_un: str) -> TokensVerify:
+        tokenDBGestion = await gestionUsuariosQuery.obtener_token_web(self, usuario_un_a_buscar= usuario_un)
+        if tokenDBGestion:
+            data = {'tokenDB': tokenDBGestion['token'], 'tokenLocalStorage': tokenLocalStorage }
+            url = f'{urlApi}/tokensVerify'
+            response = requests.post(url, data=data)
+            content = response.text
+            response_data = json.loads(content)
+            if response_data:
+                return TokensVerify(TokenDB=response_data['TokenDB'], TokenLocalS=response_data['TokenLocalS'], verify=response_data['verify'])

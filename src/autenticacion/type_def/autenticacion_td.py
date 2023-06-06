@@ -15,3 +15,9 @@ class UsuarioAuthWithToken:
     usuario_un : str
     token: str
     
+@strawberry.type
+class TokensVerify:
+    TokenDB: str
+    TokenLocalS: str
+    verify: bool
+
