@@ -22,8 +22,9 @@ class Mutation:
     async def signin(self, item: UsuarioAuthInput) -> UsuarioAuthWithToken:
         userInGestionUsuarios = gestionUsuariosQuery.buscar_un_usuario(self, usuario_un_a_buscar = item.usuario_un)
         if userInGestionUsuarios:
-            userIn = {'usuario_un': item.usuario_un, 'password': item.password }
-            response = requests.request("POST", f'{urlApi}/signin', json=mapper_general.to_json(self, userIn))
+            data = {'usuario_un': item.usuario_un, 'password': item.password }
+            url = f'{urlApi}/signin'
+            response = requests.post(url, data=data)
             return gestion.gestionar_respuesta_micro(self, response, UsuarioAuthWithToken, "uno")
         else:
             return {'msg' : "Usuario inexistente"}
