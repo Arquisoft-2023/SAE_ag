@@ -20,7 +20,7 @@ class Query:
 @strawberry.type
 class Mutation:
     @strawberry.mutation
-    async def signin(self, usuario_un: str, password: str, tokentype: str) -> str:
+    async def signin(self, usuario_un: str, password: str, tokentype: str) -> typing.Dict[str, typing.Any]:
         userInGestionUsuarios = gestionUsuariosQuery.buscar_un_usuario(self, usuario_un_a_buscar = usuario_un)
         if userInGestionUsuarios:
             data = {'usuario_un': usuario_un, 'password': password }
@@ -32,7 +32,7 @@ class Mutation:
             return response_data
             
         else:
-            return "Usuario inexistente"
+            return {"error": "Usuario inexistente"}
     # @strawberry.mutation
     # async def signin(self, usuario_un: str, password: str) -> str:
     #     url = f'{urlApi}/signin'
