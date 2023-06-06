@@ -37,11 +37,12 @@ class Mutation:
             ldap_res = signin_data["ldapRes"]
             usuario_un = signin_data["usuario_un"]
             token = signin_data["token"]
-            return UsuarioAuthWithToken(
+            usuarioOut = UsuarioAuthWithToken(
                 ldapRes = ldap_res,
                 usuario_un = usuario_un,
                 token = token
             )
+            return gestion.gestionar_respuesta_micro(self, usuarioOut, UsuarioAuthWithToken, "uno")
         else:
             return "Usuario inexistente"
     # @strawberry.mutation
