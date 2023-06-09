@@ -7,10 +7,10 @@ from dacite import from_dict
 
 # from strawberry.types import Info
 from gestionUsuarios.Server import url, port
-from gestionUsuarios.type_def.gestionUsuarios_td import *
 import typing
 from gestionUsuarios.utilities import *
 from datetime import datetime
+from gestionUsuarios.type_def.gestionUsuarios_td import *
 
 
 
@@ -143,8 +143,9 @@ class Mutation:
     @strawberry.mutation
     async def ingresar_usuario(self, item: UsuarioEsquemaInput) -> UsuarioEsquema:
         data = mapper_general.to_json(self, item)
-        response = requests.post(f'{urlApi}/usuarios', json=data)
-        return gestion.gestionar_respuesta_micro(self, response, UsuarioEsquema, "uno")
+        response = requests.request("POST",f'{urlApi}/usuarios', json=data)
+        respuesta = gestion.gestionar_respuesta_micro(self, response, UsuarioEsquema, "uno")
+        return respuesta
     
     @strawberry.mutation
     async def modificar_estado_usuario(self, usuario_un_a_buscar: str, estado_nuevo: bool) -> UsuarioEsquema:
@@ -194,8 +195,9 @@ class Mutation:
 
     @strawberry.mutation
     async def ingresar_rol(self, rol : str) -> typing.List[RolEsquema]:
-        response = requests.post(f'{urlApi}/usuariosRol?nuevo_rol={rol}')
-        return gestion.gestionar_respuesta_micro(self, response, RolEsquema, "lista")
+        response = requests.request("POST",f'{urlApi}/usuariosRol?nuevo_rol={rol}')
+        respuesta = gestion.gestionar_respuesta_micro(self, response, RolEsquema, "lista")
+        return respuesta
     
     @strawberry.mutation
     async def modificar_nombre_rol(self, rol_a_buscar: str, rol_nuevo: str) -> RolEsquema:
@@ -211,8 +213,9 @@ class Mutation:
 
     @strawberry.mutation
     async def asignar_rol_a_usuario(self, usuario_un_a_buscar: str, rol_a_buscar: str) -> typing.List[UsuarioRolEsquema]:
-        response = requests.post(f'{urlApi}/usuariosRoles/%7Busuario_un%7D&%7Brol_id%7D?usuario_un_a_buscar={usuario_un_a_buscar}&rol_id_a_buscar={rol_a_buscar}')
-        return gestion.gestionar_respuesta_micro(self, response, UsuarioRolEsquema, "lista")
+        response = requests.request("POST",f'{urlApi}/usuariosRoles/%7Busuario_un%7D&%7Brol_id%7D?usuario_un_a_buscar={usuario_un_a_buscar}&rol_id_a_buscar={rol_a_buscar}')
+        respuesta = gestion.gestionar_respuesta_micro(self, response, UsuarioRolEsquema, "lista")
+        return respuesta
     
     @strawberry.mutation
     async def eliminar_usuario_y_rol(self, usuario_un_a_buscar: str) -> str:
