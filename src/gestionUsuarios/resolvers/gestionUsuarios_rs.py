@@ -142,10 +142,13 @@ class Mutation:
 
     @strawberry.mutation
     async def ingresar_usuario(self, item: UsuarioEsquemaInput) -> UsuarioEsquema:
-        data = mapper_general.to_json(self, item)
-        response = requests.request("POST",f'{urlApi}/usuarios', json=data)
-        respuesta = gestion.gestionar_respuesta_micro(self, response, UsuarioEsquema, "uno")
-        return respuesta
+        if verifyExistenceUserLDAP(item.usuario_un) == False:
+            raise GraphQLError("El usuario no existe en el LDAP")
+        else:
+            data = mapper_general.to_json(self, item)
+            response = requests.request("POST",f'{urlApi}/usuarios', json=data)
+            respuesta = gestion.gestionar_respuesta_micro(self, response, UsuarioEsquema, "uno")
+            return respuesta
     
     @strawberry.mutation
     async def modificar_estado_usuario(self, usuario_un_a_buscar: str, estado_nuevo: bool) -> UsuarioEsquema:

@@ -58,3 +58,13 @@ class Mutation:
             #response_data = json.loads(content)
             # if response_data:
             #     return TokensVerify(TokenDB=response_data['TokenDB'], TokenLocalS=response_data['TokenLocalS'], verify=response_data['verify'])
+
+    @strawberry.mutation
+    async def verifyExistenceUserLDAP(self, usuario_un: str) -> bool:
+        data = {'usuario_un': usuario_un}
+        url = f'{urlApi}/verifyLDAP'
+        response = requests.post(url, data=data)
+        content = response.text
+        response_data = json.loads(content)
+        if response_data:
+            return content
