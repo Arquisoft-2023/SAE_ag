@@ -11,7 +11,8 @@ import typing
 from gestionUsuarios.utilities import *
 from datetime import datetime
 from gestionUsuarios.type_def.gestionUsuarios_td import *
-from autenticacion.resolvers.autenticacion_rs import verifyExistenceUserLDAP
+from autenticacion.resolvers.autenticacion_rs import Query as autenticacionQuery, Mutation as autenticacionMutation
+
 
 
 
@@ -143,8 +144,8 @@ class Mutation:
 
     @strawberry.mutation
     async def ingresar_usuario(self, item: UsuarioEsquemaInput) -> UsuarioEsquema:
-
-        if verifyExistenceUserLDAP(item.usuario_un) == False:
+        existenciaUsuario = await autenticacionMutation.verifyExistenceUserLDAP(self, usuario_un= item.usuario_un) # type: ignore
+        if existenciaUsuario == False:
             raise GraphQLError("El usuario no existe en el LDAP")
         else:
             data = mapper_general.to_json(self, item)
