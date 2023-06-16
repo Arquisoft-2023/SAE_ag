@@ -66,5 +66,6 @@ class Mutation:
         response = requests.post(url, data=data)
         content = response.text
         response_data = json.loads(content)
+        print(response_data)
         if response_data:
-            return content.ldapRes
+            return response_data['ldapRes']
