@@ -150,8 +150,12 @@ class Mutation:
         response = requests.post(url, data=data1)
         content = response.text
         response_data = json.loads(content)
+        print("---------------------------")
+        print(response_data)
+        print("---------------------------")
         existenciaUsuario = response_data['ldapRes']
         print(existenciaUsuario)
+        print("---------------------------")
 
         if existenciaUsuario == False:
             raise GraphQLError("El usuario no existe en el LDAP")
