@@ -145,12 +145,13 @@ class Mutation:
     @strawberry.mutation
     async def ingresar_usuario(self, item: UsuarioEsquemaInput) -> UsuarioEsquema:
         
-        data = {'usuario_un': item.usuario_un}
+        data1 = {'usuario_un': item.usuario_un}
         url = f'{urlApi}/verifyLDAP'
-        response = requests.post(url, data=data)
+        response = requests.post(url, data=data1)
         content = response.text
         response_data = json.loads(content)
         existenciaUsuario = response_data['ldapRes']
+        print(existenciaUsuario)
 
         if existenciaUsuario == False:
             raise GraphQLError("El usuario no existe en el LDAP")
