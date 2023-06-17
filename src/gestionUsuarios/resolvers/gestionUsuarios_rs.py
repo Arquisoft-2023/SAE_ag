@@ -148,7 +148,12 @@ class Mutation:
         data1 = {'usuario_un': item.usuario_un}
         url = f'{urlApi}/verifyLDAP'
         response = requests.post(url, data=data1)
+        print("---------------------------")
+        print(response)
+        print("---------------------------")
         content = response.text
+        print("---------------------------")
+        print(content)
         response_data = json.loads(content)
         print("---------------------------")
         print(response_data)
