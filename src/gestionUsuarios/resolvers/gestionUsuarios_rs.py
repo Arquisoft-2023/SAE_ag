@@ -17,7 +17,7 @@ from autenticacion.Server import url as urlAuth
 from autenticacion.Server import port as portAuth
 
 entryPointAuth = "auth"
-urlApiAuth = f'http://{urlApiAuth}:{portAuth}/{entryPointAuth}'
+urlApiAuth = f'http://{urlAuth}:{portAuth}/{entryPointAuth}'
 
 entryPoint = "bienestar"
 urlApi = f'http://{url}:{port}/{entryPoint}'
