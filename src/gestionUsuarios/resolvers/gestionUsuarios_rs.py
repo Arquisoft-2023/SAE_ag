@@ -151,19 +151,9 @@ class Mutation:
         data1 = {'usuario_un': item.usuario_un}
         url = f'{urlApiAuth}/verifyLDAP'
         response = requests.post(url, data=data1)
-        print("---------------------------")
-        print(response)
-        print("---------------------------")
         content = response.text
-        print("---------------------------")
-        print(content)
         response_data = json.loads(content)
-        print("---------------------------")
-        print(response_data)
-        print("---------------------------")
         existenciaUsuario = response_data['ldapRes']
-        print(existenciaUsuario)
-        print("---------------------------")
 
         if existenciaUsuario == False:
             raise GraphQLError("El usuario no existe en el LDAP")

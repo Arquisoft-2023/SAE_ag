@@ -29,7 +29,7 @@ class gestion:
     def gestionar_respuesta_micro(self, response, data_class = None, tipo_respuesta = "Primitivo", key = None):
         try:
             data = response.json()
-            if response.status_code == 200 or response.status_code == 201 or response.status_code == 204:
+            if response.status_code == 200 or response.status_code == 201 or response.status_code == 204 or response.status_code == 202 or response.status_code == 203 or response.status_code == 205 or response.status_code == 206 or response.status_code == 207 or response.status_code == 208 or response.status_code == 226:
                 if tipo_respuesta == "lista":
                     return mapper.mapper_lista(self, response, data_class)
                 elif tipo_respuesta == "uno":
