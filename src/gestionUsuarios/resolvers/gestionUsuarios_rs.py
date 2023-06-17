@@ -13,8 +13,11 @@ from gestionUsuarios.utilities import *
 from datetime import datetime
 from gestionUsuarios.type_def.gestionUsuarios_td import *
 
+from autenticacion.Server import url as urlAuth
+from autenticacion.Server import port as portAuth
 
-
+entryPointAuth = "auth"
+urlApiAuth = f'http://{urlApiAuth}:{portAuth}/{entryPointAuth}'
 
 entryPoint = "bienestar"
 urlApi = f'http://{url}:{port}/{entryPoint}'
@@ -146,7 +149,7 @@ class Mutation:
     async def ingresar_usuario(self, item: UsuarioEsquemaInput) -> UsuarioEsquema:
         
         data1 = {'usuario_un': item.usuario_un}
-        url = f'{urlApi}/verifyLDAP'
+        url = f'{urlApiAuth}/verifyLDAP'
         response = requests.post(url, data=data1)
         print("---------------------------")
         print(response)
