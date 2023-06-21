@@ -17,7 +17,20 @@ class client(object):
         self.connection = pika.BlockingConnection(
           pika.ConnectionParameters(host=self.urlQueue, credentials=self.credentials, heartbeat=360, blocked_connection_timeout=65))
         self.channel = self.connection.channel()
-        result = self.channel.queue_declare(queue='', exclusive=True)
+        # result = self.channel.queue_declare(queue='', exclusive=True)
+        # result = self.channel.queue_declare(queue=self.idQueue)
+
+        # Verificar si la cola existe
+        queue_exists = self.check_queue_exists(self.idQueue)
+
+        if not queue_exists:
+            # Si la cola no existe, declararla con los atributos deseados
+             result = self.channel.queue_declare(queue=self.idQueue, durable=True)
+        else:
+            result = self.channel.queue_declare(queue=self.idQueue, passive=True)
+            # Si la cola existe, no es necesario declararla nuevamente
+            pass
+
         self.callback_queue = result.method.queue
         self.channel.basic_consume(
             queue=self.callback_queue,
@@ -27,6 +40,10 @@ class client(object):
         self.response = None
         self.corr_id = None
 
+    def check_queue_exists(self, queue_name):
+        # Verificar si la cola existe
+        result = self.channel.queue_declare(queue=queue_name, passive=True)
+        return result.method.message_count >= 0
 
     def on_response(self, ch, method, props, body):
         if self.corr_id == props.correlation_id:
