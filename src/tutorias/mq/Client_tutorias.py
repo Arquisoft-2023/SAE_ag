@@ -15,7 +15,8 @@ response_queue = queue.Queue()
 
 def send(item):
     try:
-        tutorias_rpc = tutoriasRpcClient(urlQueue, idQueue)
+        # tutorias_rpc = tutoriasRpcClient(urlQueue, idQueue, "guest", "guest")
+        tutorias_rpc = tutoriasRpcClient(urlQueue, idQueue, "admin", "admin")
         print(" [x] Requesting...")
         # ejecutar_en_hilo(item, response_queue)
         # response = response_queue.get_nowait()

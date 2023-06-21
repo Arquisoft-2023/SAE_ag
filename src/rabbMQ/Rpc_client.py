@@ -5,14 +5,17 @@ import uuid
 
 class client(object):
 
-    def __init__(self, urlQueue, idQueue):
+    def __init__(self, urlQueue, idQueue, username, password):
         self.urlQueue = urlQueue
         self.idQueue = idQueue
+        self.username = username
+        self.password = password
+        self.credentials = pika.PlainCredentials(self.username, self.password)
         self.connect()
     
     def connect(self):
         self.connection = pika.BlockingConnection(
-          pika.ConnectionParameters(host=self.urlQueue, heartbeat=360, blocked_connection_timeout=65))
+          pika.ConnectionParameters(host=self.urlQueue, credentials=self.credentials, heartbeat=360, blocked_connection_timeout=65))
         self.channel = self.connection.channel()
         result = self.channel.queue_declare(queue='', exclusive=True)
         self.callback_queue = result.method.queue
